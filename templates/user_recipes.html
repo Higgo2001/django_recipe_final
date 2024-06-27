@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Home - Your Recipes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #f2f2f2;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+        }
+        li h3 {
+            margin: 0 0 5px;
+        }
+        li p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="{% url 'insert_recipe' %}">Insert Recipe</a>
+    <a href="{% url 'search_recipe' %}">Search Recipe</a>
+    <a href="{% url 'home' %}">Home</a>
+</div>
+
+<div class="content">
+    {% block content %}
+
+    <h1>Welcome, {{ request.user.username }}!</h1>
+
+    <h2>Your Recipes:</h2>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.email }}! <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in. <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+    
+    {% if recipes %}
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <h3><a href="#">{{ recipe.DishName }}</a></h3>
+                    <p>Type: {{ recipe.DishType }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't added any recipes yet. <a href="{% url 'insert_recipe' %}">Create one now!</a></p>
+    {% endif %}
+
+    {% endblock %}
+</div>
+
+</body>
+</html>

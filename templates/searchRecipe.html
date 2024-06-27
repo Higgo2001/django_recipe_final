@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Search Recipes</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        function addKeywordField() {
+            const container = document.getElementById('keywordFields');
+            const fieldCount = container.children.length + 1;
+            const newField = document.createElement('div');
+            newField.setAttribute('id', `keyword${fieldCount}`);
+            newField.innerHTML = `
+                <label for="word${fieldCount}">Keyword ${fieldCount}:</label>
+                <input type="text" id="word${fieldCount}" name="word${fieldCount}">
+                <button type="button" onclick="removeKeywordField(${fieldCount})">Remove</button>
+                <br>
+            `;
+            container.appendChild(newField);
+        }
+
+        function removeKeywordField(id) {
+            const field = document.getElementById(`keyword${id}`);
+            field.remove();
+        }
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{% url 'insert_recipe' %}">Insert Recipe</a>
+        <a href="{% url 'search_recipe' %}">Search Recipe</a>
+        <a href="{% url 'home' %}">Home</a>
+    </div>
+
+    <div class="content">
+        {% load flask_app_extras %}
+        <h2>Search Recipe</h2>
+        <form method="get" action="{% url 'search_recipe' %}">
+            {% csrf_token %}
+            <div id="keywordFields">
+                <div id="keyword1">
+                    <label for="word1">Keyword 1:</label>
+                    <input type="text" id="word1" name="word1"><br>
+                </div>
+                <div id="keyword2">
+                    <label for="word2">Keyword 2:</label>
+                    <input type="text" id="word2" name="word2"><br>
+                </div>
+                <div id="keyword3">
+                    <label for="word3">Keyword 3:</label>
+                    <input type="text" id="word3" name="word3"><br>
+                </div>
+            </div>
+            <button type="button" onclick="addKeywordField()">Add Keyword</button><br><br>
+
+            <label for="dishtime">Dish Time:</label>
+            <input type="text" id="dishtime" name="dishtime"><br>
+
+            <input type="submit" value="Search">
+        </form>
+
+        <div id="searchResults">
+            {% if recipes %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Dish Name</th>
+                            <th>Type</th>
+                            <th>Sort</th>
+                            <th>Time</th>
+                            <th>Products</th>
+                            <th>Description</th>
+                            <th>Machinery</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipe in recipes %}
+                            <tr>
+                                <td>{{ recipe.id }}</td>
+                                <td>{{ recipe.DishName }}</td>
+                                <td>{{ recipe.DishType }}</td>
+                                <td>{{ recipe.DishSort }}</td>
+                                <td>{{ recipe.DishTime }}</td>
+                                <td>
+                                    {% for product in recipe.ProductOtherProducts|split_and_strip %}
+                                        <span>{{ product }}</span><br>
+                                    {% endfor %}
+                                </td>
+                                <td>{{ recipe.Description }}</td>
+                                <td>{{ recipe.Machinery }}</td>
+                                <td>
+                                    <a href="{% url 'search_prices' recipe_id=recipe.id %}">View Prices</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No recipes found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

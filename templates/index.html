@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Search Prices</title>
+    <style>
+        h2 {
+            text-align: center;
+            color: #4A4A4A;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+    <script>
+        function updateTotal() {
+            var checkboxes = document.querySelectorAll('.product-checkbox');
+            var total = 0;
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    total += parseFloat(checkbox.dataset.price);
+                }
+            });
+
+            document.getElementById('totalPrice').textContent = total.toFixed(2);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkboxes = document.querySelectorAll('.product-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', updateTotal);
+            });
+
+            updateTotal(); // Initialize the total price on page load
+        });
+    </script>
+</head>
+<body>
+    <div class="content">
+        <h2>Recipe Prices</h2>
+
+        <div id="searchResults">
+            {% if prices %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Product</th>
+                            <th>Matched Product</th>
+                            <th>Price</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for price in prices %}
+                            <tr>
+                                <td><input type="checkbox" class="product-checkbox" data-price="{{ price.2 }}" checked></td>
+                                <td>{{ price.0 }}</td>
+                                <td>{{ price.3 }}</td>
+                                <td>{{ price.1 }}</td>
+                                <td>R {{ price.2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Total Price: R<span id="totalPrice"></span></h3>
+            {% else %}
+                <p>No price information available.</p>
+            {% endif %}
+        </div>
+
+        <button onclick="window.location.href='{% url 'search_recipe' %}'">Back to Search</button>
+    </div>
+</body>
+</html>

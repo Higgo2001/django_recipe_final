@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <title>Add Recipe</title>
+</head>
+
+<body>
+  <h1>Add a Recipe</h1>
+  <ul>
+      <h1>Welcome to the Home Page</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.email }}! <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in. <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+        <a href="{% url 'search_recipe' %}">Search Recipe</a>
+        <a href="{% url 'insert_recipe' %}">Insert Recipe</a>
+        <a href="{% url 'home' %}">Home</a>
+    </ul>
+  <form method="POST">
+    {% csrf_token %}  <!-- Include Django's CSRF token -->
+    <label for="DishName">Dish Name:</label>
+    <input type="text" id="DishName" name="DishName" required><br><br>
+
+    <label for="DishType">Dish Type:</label>
+    <input type="text" id="DishType" name="DishType" required><br><br>
+
+    <label for="DishSort">Dish Sort:</label>
+    <input type="text" id="DishSort" name="DishSort" required><br><br>
+
+    <label for="DishTime">Dish Time:</label>
+    <input type="text" id="DishTime" name="DishTime" required><br><br>
+
+
+    <label for="ProductOtherProducts">Dish Products:</label>
+    <textarea type="text" id="ProductOtherProducts" name="ProductOtherProducts" required></textarea></textarea><br><br>
+
+    <label for="Description">Description:</label>
+    <textarea type="text" id="Description" name="Description" required></textarea><br><br>
+
+    <label for="Machinery">Machinery:</label>
+    <input type="text" id="Machinery" name="Machinery" required><br><br>
+    <!-- Add other input fields for the rest of the recipe data -->
+
+    <button type="submit">Add Recipe</button>
+  </form>
+</body>
+</html>
