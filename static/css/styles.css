@@ -1,0 +1,143 @@
+/* Apply a soothing font to the body */
+body {
+    font-family: 'Arial', serif;
+    background: linear-gradient(to bottom, #FFEEE1, #ddeaff);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* Style for the sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #4CAF50;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    margin: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.sidebar a:hover {
+    background-color: #45a049;
+}
+
+/* Style for the main content area */
+.content {
+    margin-left: 270px;
+    padding: 20px;
+    width: calc(100% - 270px);
+}
+
+/* Centered heading style */
+h2 {
+    text-align: center;
+    color: #4A4A4A;
+}
+
+/* Style for forms */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label, input, select, textarea {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+}
+
+/* Style for buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button[type="submit"] {
+    font-size: 18px;
+    display: block;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Style for input fields and selects */
+input, select {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Style for tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: linear-gradient(to bottom, #FFEEE1, #ddeaff);
+}
+
+/* Alternate row colors for tables */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Style for keywords and images */
+.keywords, .images {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.keywords input, .images input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.images img {
+    max-width: 100px;
+    height: auto;
+    margin: 10px 0;
+}
+
+/* Additional utility classes */
+.hidden {
+    display: none;
+}

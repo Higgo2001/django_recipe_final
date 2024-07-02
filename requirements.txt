@@ -1,7 +1,7 @@
 Django==5.0.6     # Match your installed Django version
 asgiref==3.8.1
 sqlparse==0.5.0
-
+Pillow
 # MySQL Connector
 
 

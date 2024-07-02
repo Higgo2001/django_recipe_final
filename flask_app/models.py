@@ -45,7 +45,10 @@ class RankedProductPricess(models.Model):
         managed = False
         db_table = 'rankedprices'
 
-from django.contrib.auth.models import User
+# models.py
+
+from django.db import models
+from django.conf import settings
 
 class Recipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Foreign key to User model
@@ -54,11 +57,14 @@ class Recipe(models.Model):
     DishSort = models.CharField(max_length=255)
     DishTime = models.CharField(max_length=255)
     ProductOtherProducts = models.TextField()
-    Description = models.TextField()
+    #Description = models.TextField()
     Machinery = models.TextField()
 
-    def __str__(self):
-        return self.DishName
+class RecipeImage(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='recipes/')
+    description = models.CharField(max_length=255)
+
 class Account(AbstractBaseUser):
     email = models.EmailField(unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)

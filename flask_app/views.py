@@ -48,24 +48,30 @@ def home_view(request):
 
 
 
-# ... (Other Django imports if necessary)
+# views.py
 
-from django.shortcuts import  redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import SearchRecipeForm, RecipeForm
+from .forms import RecipeForm, RecipeImageFormSet
 
 @login_required
 def insert_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST)
-        if form.is_valid():
-            recipe = form.save(commit=False)  # Create object but don't save yet
-            recipe.user = request.user  # Assign the logged-in user
+        formset = RecipeImageFormSet(request.POST, request.FILES)
+        if form.is_valid() and formset.is_valid():
+            recipe = form.save(commit=False)
+            recipe.user = request.user
             recipe.save()
-            return redirect('insert_recipe') # Redirect to a success page
+            formset.instance = recipe
+            formset.save()
+            return redirect('insert_recipe')
     else:
         form = RecipeForm()
-    return render(request, 'RecipeMake.html', {'form': form})
+        formset = RecipeImageFormSet()
+
+    return render(request, 'RecipeMake.html', {'form': form, 'formset': formset})
+
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -180,3 +186,7 @@ def search_prices(request, recipe_id):
 
     context = {'prices': prices, 'total_price': prices[0][4] if prices else 0}
     return render(request, 'index.html', context)
+@login_required
+def recipe_detail(request, recipe_id):
+    recipe = Recipe.objects.get(pk=recipe_id)
+    return render(request, 'recipe_detail.html', {'recipe': recipe})

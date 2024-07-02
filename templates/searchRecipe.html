@@ -108,6 +108,7 @@
                                 <td>{{ recipe.Machinery }}</td>
                                 <td>
                                     <a href="{% url 'search_prices' recipe_id=recipe.id %}">View Prices</a>
+                                    <a href="{% url 'recipe_detail' recipe_id=recipe.id %}">View Details</a>
                                 </td>
                             </tr>
                         {% endfor %}

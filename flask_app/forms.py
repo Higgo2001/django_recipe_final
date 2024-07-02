@@ -13,10 +13,24 @@ class RegistrationForm(UserCreationForm):
 from django import forms
 from .models import Recipe
 
+# forms.py
+
+from django import forms
+from django.forms import inlineformset_factory
+from .models import Recipe, RecipeImage
+
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['DishName', 'DishType', 'DishSort', 'DishTime', 'ProductOtherProducts', 'Description', 'Machinery']
+        fields = ['DishName', 'DishType', 'DishSort', 'DishTime', 'ProductOtherProducts', 'Machinery']
+
+class RecipeImageForm(forms.ModelForm):
+    class Meta:
+        model = RecipeImage
+        fields = ['image', 'description']
+
+RecipeImageFormSet = inlineformset_factory(Recipe, RecipeImage, form=RecipeImageForm, extra=1, can_delete=True)
+
 
 from django import forms
 
