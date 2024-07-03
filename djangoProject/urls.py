@@ -15,6 +15,7 @@ urlpatterns = [
     path('search/', search_recipe, name='search_recipe'),
     path('search/search_prices/<int:recipe_id>/', search_prices, name='search_prices'),    # Add this line
     path('recipe/<int:recipe_id>/', recipe_detail, name='recipe_detail'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
